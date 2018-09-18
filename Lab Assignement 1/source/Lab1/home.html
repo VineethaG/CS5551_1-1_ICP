@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Knowledge Application</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.angularjs.org/1.1.1/angular.js"></script>
+    <script type="text/javascript" src="http://code.angularjs.org/1.1.1/angular-resource.js"></script>
+    <script type="text/javascript" src="http://code.angularjs.org/1.1.1/angular-sanitize.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+</head>
+<script>
+    $(function() {
+        $("#inputError").hide();
+        // Setting Greeting for Signed In user
+        var signedInUser = "Guest";
+        if(localStorage.getItem("type") == "signin"){
+            signedInUser = localStorage.getItem("username");
+        }else signedInUser = localStorage.getItem("F_username");
+        var greeting = "Hi, "+  signedInUser;
+        $("#userNameDisplay").html(greeting).addClass("cap")
+    });
+
+
+</script>
+
+<body ng-app="knowledgeApp" ng-controller="knowledgeController">
+
+<!--Navigation Bar-->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header" >
+            <a class="navbar-brand " id="userNameDisplay" ></a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#application" data-toggle="pill">Knowledge Services</a></li>
+            <li><a href="#project" data-toggle="pill">About Project</a>
+            <li><a href="#contact" data-toggle="pill">Contact Page</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="login.html"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="tab-content">
+        <div id="application" class="tab-pane fade in active">
+            <h3>Mashup Application</h3>
+            <p><b>Google The Knowledge Graph Search API allows users to query Google’s Knowledge
+                Graph database to obtain information on the entities contained therein.</b></p>
+                <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" name="search"  ng-model="inputTexttoSearch">
+                    <div class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="getDetails();">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                    <button class="btn btn-default" type="submit" ng-click="listen();">
+                        <i class="fa  fa-microphone"></i>
+                    </button>
+                </div>
+
+                </div>
+            <div class="modal-body row">
+            <div class="col-md-6">
+
+            <div  ng-repeat="detail in dataDisplay" style="align:center"
+                 class="panel panel-success">
+
+                <div class="panel-heading">Knowledge Graph Info</div>
+                <div class="panel-body">
+                    <div ng-if="{{detail.result.name}} != null">
+                        <li> <strong>Name : </strong>{{detail.result.name}}</li>
+                    </div>
+                    <div ng-if="{{detail.result.description}} != null">
+                        <li> <strong>Description :</strong> {{detail.result.description}}</li>
+                    </div>
+                    <div ng-if="{{detail.result.url}} != null">
+                        <li><strong> Website : </strong><a href="{{detail.result.url}}" >{{detail.result.url}} </a></li>
+                    </div>
+                    <div ng-if="{{detail.result.detailedDescription}} != null && {{detail.result.detailedDescription.articleBody}} != null">
+                        <li> <strong>Detailed Description :</strong> {{detail.result.detailedDescription.articleBody}}</li>
+                    </div>
+                    <br/>
+                    <div ng-if="{{detail.result.image}} != null && {{detail.result.image.contentUrl}} != null">
+                        <img src="{{detail.result.image.contentUrl}}" alt="{{detail.result.name}}"/>
+                    </div>
+                    <br/>
+                    <button id="faceDetection" ng-click="faceDetection(detail.result.image.contentUrl)">Face Detection</button>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Face Detection Details -->
+                <div class="col-md-6">
+                    <p style="display: none;color: red" id="faceApiError"></p>
+
+                    <div id="faceDet" ng-repeat="face in faceDetectionArray">
+
+            <div class="panel panel-info">
+                <div class="panel-heading">Face Detection Info</div>
+                <div class="panel-body">
+                    <div ng-if="{{face.attributes.gender.value}} != null">
+                        <li> <strong>Gender : </strong>{{face.attributes.gender.value}}</li>
+                    </div>
+
+                    <div ng-if="{{face.attributes.age.value}} != null">
+                        <li> <strong>Age : </strong>{{face.attributes.age.value}}</li>
+                    </div>
+
+                    <div ng-if="{{face.attributes.ethnicity.value}} != null">
+                        <li> <strong>Ethnicity : </strong>{{face.attributes.ethnicity.value}}</li>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+                </div>
+                </div>
+
+        <p style="display: none;color: red" id="inputError">Text should not be empty</p>
+        <p style="display: none;color: red" id="apiEmptyError"></p>
+
+    </div>
+
+        <!-- Project Information-->
+
+        <div id="project" class="tab-pane fade ">
+            <div class="container">
+                <h1>Goals and Objective</h1>
+                <p align="justify">Motivation of this project is to remove unused, unneeded, or expired medications from the home
+                    and dispose of them safely to prevent poisonings, prevent prescription drug abuse, and protect the environment.
+                    Significance and objective of the system is to record all the features/details of the medications quantity prescribed
+                    and quantity remaining at the take back events and generates the reports for public awareness and research motive.</p>
+                <h1>Brief Explanation of the project</h1>
+                <p align="justify"><strong>Medication take back is a web application and accessible by all the authorized members.
+                    System will have the features like,</strong>
+                    <ul> <li>Gathering the details of the medication.</li>
+                         <li>Identification of the medicine.</li>
+                         <li> Generation of the report on daily, weekly, monthly ranges and based on the event place.</li>
+                         <li>The data is open to researchers to download.</li>
+                     </ul>
+                </p>
+
+                <h1>Goals and Objective</h1>
+                <p align="justify">Drug take back events collect medications from individuals
+                    and households and excludes pharmacies, long-term care facilities, or other healthcare providers.</p>
+
+                <p align="justify">While gathering the information in real time the simplest method to assess our take back
+                    event is to count the total number of boxes of medication collected and measure the total weight of returned
+                    medications. The DEA (Drug Enforcement Administration) will tally the number of boxes and calculate the total
+                    weight of boxes collected at National Drug Take Back Day events and track our collected information over time.</p>
+
+                <p align="justify">After gathering the information we have to identify what type of medicine it is.
+                    For example in the events we can get liquids, capsules, inhalers etc. This can be done with the help of a pharmacist
+                    (or pharmacy tech or pharmacy student) who can easily identify medications. The pharmacist or volunteer will have to
+                    identify whether the substance is controlled or non-controlled, the names of the medications, the quantity that was
+                    prescribed, and the quantity that remains. By documenting the quantity prescribed and the quantity remaining, you can
+                    then assess medication waste.</p>
+
+                <p align="justify">When selecting an incinerator or incineration company, we have to check if liquids and inhalers
+                    can be incinerated along with the other collected medications. Liquids should be left in their original container,
+                    not emptied or mixed together.</p>
+
+                <h5 align="justify"><strong>There are typically three options for disposing of medications collected at a Take-back event:</strong></h5>
+
+                <p><ul> <li>When partnering with the DEA, the DEA will assume responsibility and costs for medication disposal.</li>
+
+                <li>If a law enforcement agency is hosting a take back event without DEA involvement, the law enforcement
+                    agency must assume all medication disposal responsibilities and costs.</li>
+
+                <li> The EPA (Environmental Protection Agency) recommends disposing of collected medications
+                    through approved incinerators because it is the safest disposal method for the environment and prevents
+                    the risk of drug diversion.<li></ul></p>
+
+                <p align="justify">All take back events should collect some form of data because this information can be used to
+                    better plan future events and gain additional support. Simple way to collect data from our take back event is to
+                    survey participants. After participants return their medication, ask them to complete a short survey—not more than 5
+                    questions.</p>
+
+                <p align="justify"><strong>The questions we include on the survey should help us assess our take back and plan for future events.
+                    We may want to ask participants:</strong></p>
+
+                        <p><ul><li>How they heard about the take back event</li>
+
+                        <li> How they normally dispose of medications</li>
+
+                            <li>If they would participate in a take back event in the future</li></ul></p>
+
+            </div>        </div>
+
+        <!-- Contact Details -->
+        <div id="contact" class="tab-pane fade">
+        <div class="modal-body row">
+            <div class="col-md-6">
+            <h3 align="center">Contact Form</h3>
+                <div id="message" style="display: none">
+                <p>Hi {{fname}}, Thanks for Contacting us, we will get back to you ASAP !!!</p>
+                </div>
+                <form class="submitForm" ng-submit="submit()">
+                    <label >First Name</label>
+                    <input type="text" ng-model="fname" name="firstname" placeholder="Your name..">
+                    <label >Last Name</label>
+                    <input type="text" ng-model="lname" name="lastname" placeholder="Your last name..">
+                    <label >Country</label>
+                    <select ng-model="country" name="country">
+                        <option value="australia">Australia</option>
+                        <option value="canada">Canada</option>
+                        <option value="usa">USA</option>
+                    </select>
+
+                    <label>Subject</label>
+                    <textarea ng-model="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+
+                    <button type="button" value="Submit" ng-click="formSubmit();">Submit</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="column">
+                    <div class="col-md-4 ">
+                        <img src="teamDetails/image.jpg" height="150px" width="150px"  class="img-rounded">
+                    </div>
+                    <div class="col-md-8 details">
+                        <blockquote style="margin: 0 0 50px">
+                            <h5><strong>Name: </strong> Vineetha Gummadi</h5>
+                            <h5><strong>Email Id: </strong>vgk9k@mail.umkc.edu</h5>
+                            <h5><strong>Class Id: </strong>15</h5>
+                        </blockquote>
+                    </div>
+                        </div>
+                    <div class="column">
+                    <div class="col-md-4 ">
+                        <img src="teamDetails/26.jpg" height="150px" width="150px"  class="img-rounded">
+                    </div>
+                    <div class="col-md-8 details">
+                        <blockquote style="margin: 0 0 50px">
+                            <h5><strong>Name: </strong>  Vidyullatha Lakshmi Kaza</h5>
+                            <h5><strong>Email Id: </strong>
+                                vkrwc@mail.umkc.eduv</h5>
+                            <h5><strong>Class Id: </strong>26</h5>
+                        </blockquote>
+                    </div>
+                        </div>
+                    <div class="column">
+                        <div class="col-md-4 ">
+                            <img src="teamDetails/veereshImage.jpg" height="150px" width="150px"  class="img-rounded">
+                        </div>
+                        <div class="col-md-8 details">
+                            <blockquote style="margin: 0 0 51px">
+                                <h5><strong>Name: </strong> Veeresha Thotigar</h5>
+                                <h5><strong>Email Id: </strong>
+                                    vmt9mm@mail.umkc.eduv</h5>
+                                <h5><strong>Class Id: </strong>53</h5>
+                            </blockquote>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="col-md-4 ">
+                            <img src="teamDetails/sampathImage.jpg"  height="150px" width="150px" class="img-rounded">
+                        </div>
+                        <div class="col-md-8 details">
+                            <blockquote>
+                                <h5><strong>Name: </strong> Sai Sampath Kumar Raigiri</h5>
+                                <h5><strong>Email Id: </strong>
+                                    srtwr@mail.umkc.edus</h5>
+                                <h5><strong>Class Id: </strong>41</h5>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div></div>
+        </div>
+
+
+        </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

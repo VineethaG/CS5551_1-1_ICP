@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:fb="facebook">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.1/angular.min.js" type="application/javascript"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="style.css" rel="stylesheet">
+    <script src="app.js"></script>
+    <script>
+        var app = angular.module('regApplication', []);
+        app.controller('regController', function($scope,$http) {
+
+            $scope.registration = function () {
+                var validate = false;
+                var message = "";
+                var username = $scope.username;
+                var email = $scope.emailId;
+                var password = $scope.password;
+                var repassword = $scope.repassword;
+                if (!(password == repassword))
+                    message = message + "Password should match";
+                if (username == null || email == null || password == null || repassword == null)
+                    message = message + "Please enter all the fields \n";
+
+                if (message.length > 0) {
+                    window.alert(message);
+                    validate = false;
+                }
+                else
+                    validate = true;
+
+                if (validate == true) {
+                    localStorage.setItem("password", password);
+                    localStorage.setItem("username", username);
+                    window.location.href = "login.html";
+                }
+            }
+
+        });
+
+    </script>
+</head>
+<body ng-app="regApplication" ng-controller="regController" >
+
+<header class="header" id="top">
+    <div class="container">
+        <div class="page-header"> <h1 align="center">Medication Take Away Application</h1></div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="form-body">
+                    <div id="sectionA" class="tab-pane fade in active">
+                        <div class="innter-form">
+                            <form class="sa-innate-form" method="post" name="myRegisterForm" >
+                                <ul class="nav nav-tabs final-login">
+                                    <li class="active"><a data-toggle="tab" href="#sectionA">Sign UP</a></li>
+                                    <li><a  href="login.html">Sign IN!</a></li>
+                                </ul>
+                                <br>
+                                <label class="text-label">Email Address</label>
+                                <input type="text" name="email"  placeholder="Enter Email Id" ng-model="emailId">
+                                <label class="text-label">User Name</label>
+                                <input type="text" name="userName"  placeholder="Enter Username" ng-model="username">
+                                <label class="text-label">Password</label>
+                                <input type="password" name="password" placeholder="Enter Password" ng-model="password">
+                                <label class="text-label">Confirm Password</label>
+                                <input type="password" name="repeatPassword" placeholder="Re Enter Password" ng-model="repassword">
+                                <button class="btn btn-info" type="submit" ng-click="registration()">Sign Up</button>
+
+                                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"
+                                                     class="fb-login-button" data-max-rows="1" data-size="medium"
+                                                     data-button-type="login_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false">
+                                    </fb:login-button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+</body>
+</html>
