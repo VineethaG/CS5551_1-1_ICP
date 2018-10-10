@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <h3 class="titleicon" style="display:inline-block">Medicine Take Back</h3>
+    <button style="float: right; top: 5px; right: 20px;" ion-button color="tertiary" (click)="logout()">Logout</button>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    
+    
+    <button  ion-button color="tertiary" (click)="Capture()">Take Picture</button>
+<div *ngIf="base64Image">
+    <br/>
+    <strong align="center">Picture Taken</strong>
+  <img [src]="base64Image" />
+    <br/><br/>
+    <p *ngIf="visionResult">Text from the Image is : <strong> {{visionResult}}</strong></p>
+  </div>
+    
+<!--    // <ion-item *ngFor="let label of visionResult">{{label.textAnnotations.description}}</ion-item>   -->
+
+    
+</ion-content>
