@@ -1,17 +1,29 @@
 <ion-header>
   <ion-navbar>
-    <h3 class="titleicon" style="display:inline-block">Contact</h3>
-    <button style="float: right; top: 5px; right: 20px;" ion-button color="tertiary" (click)="logout()">Logout</button>
-      
+    <ion-title>
+      Nearest Medical Stores
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
-    </ion-item>
+<ion-content padding>
+
+  <h2>Locate the nearest pharmacy stores from the current location</h2>
+  <div #map id="map">
+  </div>
+    
+    <ion-list *ngFor="let venue of data">
+      <ion-card>
+          <ion-card-content>
+            <ion-card-title>
+                {{venue.name}}
+            </ion-card-title>
+              <p>
+                <ion-icon ios="ios-mail" md="md-mail"></ion-icon>
+                {{venue.location.formattedAddress}}
+              </p>
+          </ion-card-content>
+      </ion-card>
   </ion-list>
+
 </ion-content>

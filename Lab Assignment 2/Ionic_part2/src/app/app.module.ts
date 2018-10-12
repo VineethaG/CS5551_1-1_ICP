@@ -5,8 +5,7 @@ import { MyApp } from './app.component';
 import { Camera } from '@ionic-native/camera';
 import { HttpModule } from '@angular/http';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
-
-
+import { Geolocation } from '@ionic-native/geolocation';
 import { AboutPage } from '../pages/about/about';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
@@ -15,7 +14,6 @@ import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
 // Import the AF2 Module
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -57,7 +55,7 @@ import { GoogleCloudVisionServiceProvider } from '../providers/google-cloud-visi
   ],
   providers: [
     StatusBar,
-    SplashScreen,Camera,
+    SplashScreen,Camera,    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ImageProvider,
         HttpClientModule,
