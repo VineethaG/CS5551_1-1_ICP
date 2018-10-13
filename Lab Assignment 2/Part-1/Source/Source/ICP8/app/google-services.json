@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1060806688172",
+    "firebase_url": "https://icp8-latha.firebaseio.com",
+    "project_id": "icp8-latha",
+    "storage_bucket": "icp8-latha.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060806688172:android:c5788e2950ecde60",
+        "android_client_info": {
+          "package_name": "vidyullatha.icp8"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060806688172-vpmcd9dep2aoqbbfhoakbsrs4grkqdsj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vidyullatha.icp8",
+            "certificate_hash": "6c895a05756d97dfbad15ef05ec4a27e8c6cc90c"
+          }
+        },
+        {
+          "client_id": "1060806688172-8dbgr4eigfvnj4l5c2k8tue29pkkd60b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnpHsseugEX6hSqyAfEUjL9ewgkTtkCDc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060806688172-8dbgr4eigfvnj4l5c2k8tue29pkkd60b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

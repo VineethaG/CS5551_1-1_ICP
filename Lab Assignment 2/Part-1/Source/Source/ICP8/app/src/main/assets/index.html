@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cognitive Facial Recognition</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+</head>
+<body>
+<h3 style="text-align: center; color: blue;">Cognitive Age & Emotion Detector</h3>
+<div>
+    <img width="500" height="200" style="border-style: outset; border-color: blue; border-radius: 15px; width: 75%; margin-top: 15px; margin-right: auto; margin-left: auto; display: block;" alt="Alternate Text" src="https://image.ibb.co/hR8iPU/happy-people.jpg">
+</div>
+<div>
+    <button id="submit" style="border: dotted; border-image: none; width: 200px; height: 30px; color: blue; margin-top: 15px; margin-right: auto; margin-left: auto; display: block; background-color: white;">Find Out!</button>
+</div>
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('#submit').click(function () {
+                $.ajax({
+                    url: "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender,emotion",
+                    beforeSend: function (object) {
+                        // Request headers
+                        object.setRequestHeader("Content-Type", "application/json");
+                        object.setRequestHeader("Ocp-Apim-Subscription-Key", "a18c6afe48fc4fd7be9b11753c3be72d");
+                    },
+                    type: "POST",
+                    // Request body
+                    data: '{ "url": "https://image.ibb.co/hR8iPU/happy-people.jpg" }',
+                    username: "*****************",
+                    password: "***************"
+                })
+                .done(function (data) {
+                    var x = data;
+                    for (var i = 0; i < data.length; i++) {
+                        document.body.innerHTML += '<div style="float:left"><ul><h4> Person ' + (i + 1) + ' (' + data[i].faceAttributes.age +', '+ data[i].faceAttributes.gender +')</h4>' + '<li>Anger: ' + data[i].faceAttributes.emotion.anger + '</li><li>Contempt: ' + data[i].faceAttributes.emotion.contempt + '</li><li>Disgust: ' + data[i].faceAttributes.emotion.disgust + '</li><li>Fear: ' + data[i].faceAttributes.emotion.fear  +'</li><li>Happiness: ' + data[i].faceAttributes.emotion.happiness + '</li><li>Neutral: ' + data[i].faceAttributes.emotion.neutral + '</li><li>Sadness: ' + data[i].faceAttributes.emotion.sadness + '</li><li>Surprise:' + data[i].faceAttributes.emotion.surprise + '</li></ul></div>';
+                    }
+                })
+                .fail(function () {
+                    alert("error");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
