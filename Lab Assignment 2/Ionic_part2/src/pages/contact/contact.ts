@@ -31,7 +31,6 @@ lat: any;
       this.lat = pos.coords.latitude;
       this.lng = pos.coords.longitude;
       this.httpClient.get('https://api.foursquare.com/v2/venues/search?client_id=XUE5OHFJNUDACMIFWVF5XMCUFUKPSWXTBBTSO1PHBFL0BGDK&client_secret=Z0RUZIJ4W5M3YLFHDQRL1VL2WQWDJHYSPJKXO2SKFALLHU0U&v=20180223&limit=5&ll='+ this.lat+','+this.lng+'&query=pharmacy').subscribe((data:any) => {
-     // this.httpClient.get('https://api.foursquare.com/v2/venues/search?client_id=XUE5OHFJNUDACMIFWVF5XMCUFUKPSWXTBBTSO1PHBFL0BGDK&client_secret=Z0RUZIJ4W5M3YLFHDQRL1VL2WQWDJHYSPJKXO2SKFALLHU0U&v=20180223&limit=5&near=kansas city&query=medical store').subscribe((data:any) => {
         this.data = data.response.venues;
         this.showMap();
         this.getMarkers();
@@ -41,21 +40,12 @@ lat: any;
   }
   
   showMap(){
-    //console.log(this.lat);
-    //console.log(this.lng);
-    // const location = new google.maps.LatLng(this.lat,this.lng);
-    console.log(this.data[0].location.lat);
-    console.log(this.data[0].location.lng);
     const location = new google.maps.LatLng(this.data[0].location.lat,this.data[0].location.lng);
     const options = {
       center:location,
       zoom:12
     };
-
     this.map = new google.maps.Map(this.mapRef.nativeElement,options);
-
-    //this.addMarker(location,this.map);
-
   }
   getMarkers() {
     for (let _i = 0; _i < this.data.length; _i++) {
