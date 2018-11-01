@@ -26,7 +26,7 @@ const User_Details = new Schema({
     Phone: Number
 });
 const UserRegistration_Model  = mongoose.model('User_Details', User_Details);
-let db_promise = mongoose.connect('mongodb://Vineetha:vineetha9@ds145043.mlab.com:45043/lab3');
+let db_promise = mongoose.connect('mongodb://<username>:<password>.mlab.com:45043/lab3');
 db_promise.then((data)=>{
     console.log('DB connection established !');
 }).catch((err)=>{
@@ -65,7 +65,7 @@ app.post('/register',(req,res)=>{
                          service: 'gmail',
                          auth: {
                              user: 'vineetha.gummadi@gmail.com', // generated ethereal user
-                             pass: 'chinnu95##@@' // generated ethereal password
+                             pass: 'password' // generated ethereal password
                          }
                      });
 
