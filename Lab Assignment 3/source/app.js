@@ -9,7 +9,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session')
 var mongoose = require('mongoose');
-var nodemailer = require('nodemailer');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt-nodejs');
@@ -168,6 +167,36 @@ app.post('/update',(req,res)=>{
              data.Email_Id = body.Email_Id;
             data.Phone = body.Phone;
             data.save();
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'vineetha.gummadi@gmail.com', // generated ethereal user
+                    pass: 'password' // generated ethereal password
+                }
+            });
+
+
+            // setup email data with unicode symbols
+            let mailOptions = {
+                from: 'vineetha.gummadi@gmail.com', // sender address
+                to: body.Email_Id, // list of receivers
+                subject: 'Hi '+ body.First_Name+ ', You have updated your profile successfully', // Subject line
+                html: '<b>You can login into the application using below link</b> <br>' +
+                '<a href="https://grisly-castle-45369.herokuapp.com/">https://grisly-castle-45369.herokuapp.com/</a>' // html body
+            };
+
+            // send mail with defined transport object
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return console.log(error);
+                }
+                console.log('Message sent: %s', info.messageId);
+                // Preview only available when sending through an Ethereal account
+                console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+                // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+                // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+            });
             res.send({
                 result: "Success",
                 data: data
