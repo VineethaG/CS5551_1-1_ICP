@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Knowledge Application</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.angularjs.org/1.1.1/angular.js"></script>
+    <script type="text/javascript" src="http://code.angularjs.org/1.1.1/angular-resource.js"></script>
+    <script type="text/javascript" src="http://code.angularjs.org/1.1.1/angular-sanitize.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="client.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.8.10/themes/smoothness/jquery-ui.css" type="text/css">
+    <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/jquery-ui.min.js"></script>
+</head>
+<script>
+    $(function() {
+        $("#inputError").hide();
+        // Setting Greeting for Signed In user
+        var signedInUser = "Guest";
+        signedInUser = sessionStorage.getItem("User");
+        var userdetails= JSON.parse(signedInUser);
+        var greeting = "Hi, "+  userdetails.data.First_Name ;
+        var usernamedisplay =  userdetails.data.First_Name + " " + userdetails.data.Last_Name;
+        $("#userNameDisplay").html(greeting).addClass("cap")
+        $("#profileNameDisplay").html(usernamedisplay).addClass("cap")
+
+    });
+    </script>
+  }
+
+<body ng-app="myApp" ng-controller="ViewCtrl">
+
+<!--Navigation Bar-->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header" >
+            <a class="navbar-brand " id="userNameDisplay" style="color: lightblue"></a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#application" data-toggle="pill">Home Page</a></li>
+            <li><a href="#userslist" data-toggle="pill">Users List</a>
+            <li><a href="#contact" data-toggle="pill">Profile Page</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <button class="btn btn-danger navbar-btn" ng-click="logout()"> <span class="glyphicon glyphicon-log-out"></span>Logout</button>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="tab-content">
+        <div id="application" class="tab-pane fade ">
+            <h3>Mashup Application</h3>
+        </div>
+
+        <div id="userslist" class="tab-pane fade in active" ng-init="usersList()">
+            <h3>Users List</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email Id</th>
+                    <th>Phone Number</th>
+                    <th>Action</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr ng-repeat="user in users">
+                    <td><input class="form-control" type="text" ng-model="user.First_Name" /></td>
+                    <td><input class="form-control" type="text"  ng-model="user.Last_Name" /></td>
+                    <td><input class="form-control" type="text"  ng-model="user.Email_Id" /></td>
+                    <td><input class="form-control" type="text"  ng-model="user.Phone" /></td>
+                    <td><button class="btn btn-danger" ng-click="remove(user)">Remove</button></td>
+                    <td><button class="btn btn-warning" ng-click="edit(user)">Edit</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="contact" class="tab-pane fade" ng-init="auto()">
+            <div class="container bootstrap snippet">
+                <div class="row">
+                    <div class="col-sm-10" ><h1  id="profileNameDisplay"></h1></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3"><!--left col-->
+
+
+                        <div class="text-center">
+                            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+                            <h6>Upload a different photo...</h6>
+                            <input type="file" class="text-center center-block file-upload">
+                        </div></hr><br>
+
+
+                    </div><!--/col-3-->
+                    <div class="col-sm-9" >
+                           <div class="tab-content">
+                            <div class="tab-pane active" id="home">
+                                <hr>
+                                <form class="form" ng-submit="update()">
+                                    <div class="form-group">
+
+                                        <div class="col-xs-12">
+                                            <label ><h4>First name</h4></label>
+                                            <input type="text" class="form-control" name="first_name" placeholder="first name" ng-model="first_name" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <div class="col-xs-12">
+                                            <label ><h4>Last name</h4></label>
+                                            <input type="text" class="form-control" name="last_name"  placeholder="last name" ng-model="last_name">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <div class="col-xs-6">
+                                            <label ><h4>Phone</h4></label>
+                                            <input type="text" class="form-control" name="phone"  placeholder="enter phone" ng-model="phone_number">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-xs-6">
+                                            <label ><h4>Email</h4></label>
+                                            <input type="email" class="form-control" name="email" placeholder="you@email.com" ng-model="email_id">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-xs-12">
+                                            <br>
+                                            <button class="btn btn-lg btn-success" type="submit" ng-click="update()"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                                            <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <hr>
+
+                            </div><!--/tab-pane-->
+                        </div><!--/tab-pane-->
+                    </div><!--/tab-content-->
+
+                </div><!--/col-9-->
+            </div><!--/row-->
+
+        </div>
+
+
+
+</div>
+</div>
+
+</body>
+</html>

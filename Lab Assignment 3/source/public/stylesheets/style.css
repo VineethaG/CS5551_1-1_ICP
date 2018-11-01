@@ -1,0 +1,25 @@
+body{
+  background-image:url(https://s3.envato.com/files/243754334/primag.jpg);
+  background-repeat:no-repeat;
+  background-size:cover;
+  width:100%;
+  height:100vh;
+  overflow:auto;
+
+}
+
+a {
+  color: #00B7FF;
+}
+.container{
+  font-family: Roboto,sans-serif;
+  background-image: url(https://image.freepik.com/free-vector/dark-blue-blurred-background_1034-589.jpg);
+  margin: 0 auto;
+  opacity: 0.8;
+  margin-top: 67px;
+  box-shadow: 2px 5px 5px 0px #eee;
+  max-width: 638px;
+  padding-top: -28px;
+  height: 405px;
+  margin-top: 92px;
+}
